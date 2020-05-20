@@ -207,29 +207,25 @@ cat models/{Model}/{Best Validation Result}.detokenized.hyps.test | sacrebleu da
 | (e)   | Yes     | 4000            | 3.6  |
 | (f)   | Yes     | 8000            | 0.7  |
 
-The BLEU score peaks around a vocabulary size of 1-2k when using BPE. As discussed in the tutorial, all results are to be regarded with caution due to the small training size and low amount of epochs.
+The BLEU score peaks around a vocabulary size of 1-2k when using BPE. As discussed in the tutorial, all results are to be regarded with caution due to the small training size and few epochs.
 
 3. Manually check translation
 
-#### Word Level
-Every sentence contains a `<unk>`, sometimes more than half the tokens in the sentence are unknown. This is probably due to the low vocabulary treshold.
+**Word Level:** Every sentence contains a `<unk>`, sometimes more than half the tokens in the sentence are unknown. This is probably due to the low vocabulary treshold.
 
-#### BPE 1-2k
-No `<unk>` to be seen, which was to be expected. By just eyeballing the translations, sentences mostly seem to look like complete sentences. Now and then there are nonsensical word repetitions like
+**BPE 1-2k:** No `<unk>` to be seen, which was to be expected. By just eyeballing the translations, sentences mostly seem to look like complete sentences. Now and then there are nonsensical word repetitions like
 > Getro , Betro , Betrg , Betrg , Betrg , Betrg , Scag.
 
-#### BPE 3-4k
-I can't really see a difference to the 1k and 2k translations. This translation way worse according to the BLEU score, but I couldn't tell.
+**BPE 3-4k:** I can't really see a difference to the 1k and 2k translations. These translations are way worse according to the BLEU score, but I couldn't tell.
 
-#### BPE 8k
-Lots of repetition, my favourite being:
+**BPE 8k:** Lots of repetition, my favourite being:
 > In effetti , in realtà , il mondo , il mondo , il mondo , il mondo , il mondo , il mondo , il mondo , il mondo
 
 
 
-## 3. Impact of beam size on translation quality
+## 3. Impact of Beam Size on Translation Quality
 
-### Translating with different beam sizes
+### Translating with Different Beam Sizes
 Using the best model (vocabulary size: 1k), we can now perform translations and adjust the beam size each time.
 The beam size can be adjusted manually in `configs/low_resource_bpe_level_1k.yaml` for each time the following scripts are executed:
 ```bash
