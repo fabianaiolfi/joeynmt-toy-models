@@ -68,7 +68,7 @@ tar -xzvf data.ex5.tar.gz
 
 
 
-### Sub-sample Parallel Training Data
+### Sub-Sample Parallel Training Data
 For this exercise I chose the language pair [German and Italian](https://youtu.be/q69v7KypXR8?t=203), with the source language being German.
 
 To randomly subsample the parallel training data, execute these [commands](https://stackoverflow.com/a/49037661):
@@ -101,7 +101,7 @@ _Sidenote: The input language in `tokenizer.perl` seems to be set to `en`. Not s
 
 
 
-### Training word-level model with JoeyNMT
+### Training Word-Level Model with JoeyNMT
 
 1. Adjust configuration
 
@@ -120,7 +120,7 @@ CUDA_VISIBLE_DEVICES=0 OMP_NUM_THREADS=4 python3 -m joeynmt train configs/low_re
 
 
 
-### Training BPE-level model with JoeyNMT
+### Training BPE-Level Model with JoeyNMT
 
 1. Learn BPE model
 ```bash
