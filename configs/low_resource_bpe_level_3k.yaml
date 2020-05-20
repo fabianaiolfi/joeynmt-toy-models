@@ -1,21 +1,21 @@
-name: "low_resource_word_level"
+name: "low_resource_bpe_level_3k"
 data:
     src: "de"
     trg: "it"
-    train: "data/subsample.tokenized.train.de-it"
-    dev:   "data/dev.de-it"
-    test:  "data/test.de-it"
-    level: "word"
+    train: "data/bpe_vocab_3k/bpe.subsample.tokenized.train.de-it"
+    dev:   "data/bpe_vocab_3k/bpe.tokenized.dev.de-it"
+    test:  "data/bpe_vocab_3k/bpe.tokenized.test.de-it"
+    level: "bpe"
     lowercase: False
     max_sent_length: 100
     # either use a vocabulary limit:
-    src_voc_limit: 2000
-    trg_voc_limit: 2000
+    #src_voc_limit: ?
+    #trg_voc_limit: ?
     # or (= not both!) a file with a vocabulary built before starting the training:
-    # src_vocab: "?"
-    # trg_vocab: "?"
+    src_vocab: "data/bpe_vocab_3k/de-it.vocab"
+    trg_vocab: "data/bpe_vocab_3k/de-it.vocab"
 testing:
-    beam_size: 2
+    beam_size: 5
     alpha: 1.0
 training:
     optimizer: "adam"
@@ -34,10 +34,10 @@ training:
     validation_freq: 500
     logging_freq: 100
     eval_metric: "bleu"
-    model_dir: "models/low_resource_word_level"
-    overwrite: False
+    model_dir: "models/low_resource_bpe_level_3k"
+    overwrite: True
     shuffle: True
-    use_cuda: False
+    use_cuda: True
     max_output_length: 100
     print_valid_sents: [0, 1, 2, 3, 4]
     label_smoothing: 0.1
