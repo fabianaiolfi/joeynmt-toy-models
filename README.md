@@ -244,9 +244,10 @@ cat beam_size/{Beam Size}.detokenized.hyps.test | sacrebleu data/test.de-it.it
 ```
 
 ### Graph
-!(https://github.com/fabianaiolfi/joeynmt-toy-models/blob/ex5/beam_size/plot_output.png)
+![](https://github.com/fabianaiolfi/joeynmt-toy-models/blob/ex5/beam_size/plot_output.png)
 Source: [`beam_size/plot_script.py`](https://github.com/fabianaiolfi/joeynmt-toy-models/blob/ex5/beam_size/plot_script.py)
 
 ### Evaluation
 The highest BLEU score is achieved with a beam size of 1, which is – as far as I have understood – not actually a beam search but rather a greedy search. The higher the beam size, the lower the BLEU score and also the longer it takes to produce the translation.
+
 I have the feeling that my results are slightly off due to the constraints of this exercise (small training data, few epochs) and that a beam size of around 5 would produce the best BLEU score with a properly functioning model.
