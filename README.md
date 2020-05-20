@@ -211,20 +211,17 @@ The BLEU score peaks around a vocabulary size of 1-2k when using BPE. As discuss
 
 3. Manually check translation
 
-`low_resource_word_level`
+#### Word Level
 Every sentence contains a `<unk>`, sometimes more than half the tokens in the sentence are unknown. This is probably due to the low vocabulary treshold.
 
-`low_resource_bpe_level_1k` and `low_resource_bpe_level_2k`
-
+#### BPE 1-2k
 No `<unk>` to be seen, which was to be expected. By just eyeballing the translations, sentences mostly seem to look like complete sentences. Now and then there are nonsensical word repetitions like
 > Getro , Betro , Betrg , Betrg , Betrg , Betrg , Scag.
 
-`low_resource_bpe_level_3k` and `low_resource_bpe_level_4k`
-
+#### BPE 3-4k
 I can't really see a difference to the 1k and 2k translations. This translation way worse according to the BLEU score, but I couldn't tell.
 
-`low_resource_bpe_level_8k`
-
+#### BPE 8k
 Lots of repetition, my favourite being:
 > In effetti , in realtà , il mondo , il mondo , il mondo , il mondo , il mondo , il mondo , il mondo , il mondo
 
@@ -247,8 +244,9 @@ cat beam_size/{Beam Size}.detokenized.hyps.test | sacrebleu data/test.de-it.it
 ```
 
 ### Graph
-![beam_size/plot_output.png]
-Source: `[beam_size/plot_script.py](https://github.com/fabianaiolfi/joeynmt-toy-models/blob/ex5/beam_size/plot_script.py)`
+!(https://github.com/fabianaiolfi/joeynmt-toy-models/blob/ex5/beam_size/plot_output.png)
+Source: [`beam_size/plot_script.py`](https://github.com/fabianaiolfi/joeynmt-toy-models/blob/ex5/beam_size/plot_script.py)
 
+### Evaluation
 The highest BLEU score is achieved with a beam size of 1, which is – as far as I have understood – not actually a beam search but rather a greedy search. The higher the beam size, the lower the BLEU score and also the longer it takes to produce the translation.
 I have the feeling that my results are slightly off due to the constraints of this exercise (small training data, few epochs) and that a beam size of around 5 would produce the best BLEU score with a properly functioning model.
