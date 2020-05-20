@@ -70,6 +70,7 @@ tar -xzvf data.ex5.tar.gz
 
 ### Sub-sample Parallel Training Data
 For this exercise I chose the language pair [German and Italian](https://youtu.be/q69v7KypXR8?t=203), with the source language being German.
+
 To randomly subsample the parallel training data, execute these [commands](https://stackoverflow.com/a/49037661):
 ```bash
 cd data
@@ -103,6 +104,7 @@ _Sidenote: The input language in `tokenizer.perl` seems to be set to `en`. Not s
 ### Training word-level model with JoeyNMT
 
 1. Adjust configuration
+
 To train a word-level model, I cloned `low_resource_example.yaml` to `low_resource_word_level.yaml` and made the following adjustments:
 - Set `src_voc_limit` to `2000`
 - Set `trg_voc_limit` to `2000`
@@ -110,6 +112,7 @@ To train a word-level model, I cloned `low_resource_example.yaml` to `low_resour
 - Set a `model_dir`
 
 2. Train word-level language model
+
 To train a word-level model, run the following command:
 ```bash
 CUDA_VISIBLE_DEVICES=0 OMP_NUM_THREADS=4 python3 -m joeynmt train configs/low_resource_word_level.yaml
@@ -174,7 +177,6 @@ data/bpe_vocab_{Vocabulary Size}/bpe.subsample.tokenized.train.de-it.de data/bpe
 ```
 
 4. Train BPE-level language model
-To train a BPE-level model, run the following command:
 ```bash
 CUDA_VISIBLE_DEVICES=0 OMP_NUM_THREADS=4 python3 -m joeynmt train configs/low_resource_bpe_level_{Vocabulary Size}.yaml # my local device
 CUDA_VISIBLE_DEVICES=0 OMP_NUM_THREADS=16 python3 -m joeynmt train configs/low_resource_bpe_level_{Vocabulary Size}.yaml # GCP VM
@@ -195,7 +197,7 @@ cat models/{Model}/{Best Validation Result}.hyps.test | tools/moses-scripts/scri
 cat models/{Model}/{Best Validation Result}.detokenized.hyps.test | sacrebleu data/test.de-it.it
 ```
 
-##### BLEU Score Comparisons
+#### BLEU Score Comparisons
 | Model | Use BPE | Vocabulary Size | BLEU |
 |-------|---------|-----------------|------|
 | (a)   | No      | 2000            | 2.0  |
@@ -208,17 +210,23 @@ cat models/{Model}/{Best Validation Result}.detokenized.hyps.test | sacrebleu da
 The BLEU score peaks around a vocabulary size of 1-2k when using BPE. As discussed in the tutorial, all results are to be regarded with caution due to the small training size and low amount of epochs.
 
 3. Manually check translation
+
 `low_resource_word_level`
 Every sentence contains a `<unk>`, sometimes more than half the tokens in the sentence are unknown. This is probably due to the low vocabulary treshold.
 
 `low_resource_bpe_level_1k` and `low_resource_bpe_level_2k`
-No `<unk>` to be seen, which was to be expected. By just eyeballing the translations, sentences mostly seem to look like complete sentences. Now and then there are nonsensical word repetitions like "Getro , Betro , Betrg , Betrg , Betrg , Betrg , Scag".
+
+No `<unk>` to be seen, which was to be expected. By just eyeballing the translations, sentences mostly seem to look like complete sentences. Now and then there are nonsensical word repetitions like
+> Getro , Betro , Betrg , Betrg , Betrg , Betrg , Scag.
 
 `low_resource_bpe_level_3k` and `low_resource_bpe_level_4k`
+
 I can't really see a difference to the 1k and 2k translations. This translation way worse according to the BLEU score, but I couldn't tell.
 
 `low_resource_bpe_level_8k`
-Lots of repetition, my favourite being: "In effetti , in realtà , il mondo , il mondo , il mondo , il mondo , il mondo , il mondo , il mondo , il mondo".
+
+Lots of repetition, my favourite being:
+> In effetti , in realtà , il mondo , il mondo , il mondo , il mondo , il mondo , il mondo , il mondo , il mondo
 
 
 
@@ -239,8 +247,8 @@ cat beam_size/{Beam Size}.detokenized.hyps.test | sacrebleu data/test.de-it.it
 ```
 
 ### Graph
-[beam_size/plot_output.png]
-Source: `beam_size/plot_script.py`
+![beam_size/plot_output.png]
+Source: `[beam_size/plot_script.py](https://github.com/fabianaiolfi/joeynmt-toy-models/blob/ex5/beam_size/plot_script.py)`
 
 The highest BLEU score is achieved with a beam size of 1, which is – as far as I have understood – not actually a beam search but rather a greedy search. The higher the beam size, the lower the BLEU score and also the longer it takes to produce the translation.
 I have the feeling that my results are slightly off due to the constraints of this exercise (small training data, few epochs) and that a beam size of around 5 would produce the best BLEU score with a properly functioning model.
