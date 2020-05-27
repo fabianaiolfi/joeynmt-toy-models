@@ -78,7 +78,7 @@ shuf -n 100000 --random-source=train.de-it.de <(cat -n train.de-it.de) | sort -n
 shuf -n 100000 --random-source=train.de-it.de <(cat -n train.de-it.it) | sort -n | cut -f2- > subsample.train.de-it.it
 cd ..
 ```
-If you're having trouble with `shuf`, take a look at [this](https://apple.stackexchange.com/a/142864).
+Alternatively use [`gshuf`](https://apple.stackexchange.com/a/142864).
 
 
 
@@ -241,7 +241,9 @@ cat beam_size/{Beam Size}.detokenized.hyps.test | sacrebleu data/test.de-it.it
 
 ### Graph
 ![](https://github.com/fabianaiolfi/joeynmt-toy-models/blob/ex5/beam_size/plot_output.png)
-Source: [`beam_size/plot_script.py`](https://github.com/fabianaiolfi/joeynmt-toy-models/blob/ex5/beam_size/plot_script.py)
+_Source: [`beam_size/plot_script.py`](https://github.com/fabianaiolfi/joeynmt-toy-models/blob/ex5/beam_size/plot_script.py)_
+
+_Translations were run on a Google Cloud VM instance. The exact specifications have been lost (GCP cannot be accessed anymore due to credits being used up), but it was a GPU named Tesla using around 96GB of memory._
 
 ### Evaluation
 The highest BLEU score is achieved with a beam size of 1, which is – as far as I have understood – not actually a beam search but rather a greedy search. The higher the beam size, the lower the BLEU score and also the longer it takes to produce the translation.
